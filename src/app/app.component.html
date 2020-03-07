@@ -1,3 +1,46 @@
-<h1>It works</h1>
+<div class="main-container" style="background-color:#eee; height:100vh">
 
+    <h1>It works</h1>
+    <div class="selector first" *ngIf="initialized">
+        <mat-form-field>
+            <mat-label>First country</mat-label>
+            <mat-select [(value)]="selectedFirstCountry">
+                <mat-option *ngFor="let country of svc.getCountries()" [value]="country">{{country}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <div *ngIf="svc.getStatesOfCountry(selectedFirstCountry).length > 0">
+            <mat-form-field>
+                <mat-label>First country's state</mat-label>
+                <mat-select [disabled]="allStatesFirst.value" [(value)]="selectedFirstState">
+                    <mat-option *ngFor="let state of svc.getStatesOfCountry(selectedFirstCountry)" [value]="state">
+                        {{state}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+                <mat-checkbox class="example-margin" [formControl]="allStatesFirst">Aggregate all states data for {{selectedFirstCountry}}</mat-checkbox>
+        </div>
+    </div>
+    <div class="selector second" *ngIf="initialized">
+        <mat-form-field>
+            <mat-label>Second country</mat-label>
+            <mat-select [(value)]="selectedSecondCountry">
+                <mat-option *ngFor="let country of svc.getCountries()" [value]="country">{{country}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <div *ngIf="svc.getStatesOfCountry(selectedSecondCountry).length > 0">
+            <mat-form-field>
+                <mat-label>Second country's state</mat-label>
+                <mat-select [disabled]="allStatesSecond.value" [(value)]="selectedSecondState">
+                    <mat-option *ngFor="let state of svc.getStatesOfCountry(selectedSecondCountry)" [value]="state">
+                        {{state}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+                <mat-checkbox class="example-margin" [formControl]="allStatesSecond">Aggregate all states data for {{selectedSecondCountry}}</mat-checkbox>
+        </div>
+    </div>
+    <div>
+        <button mat-button color="primary" (click)="generate()">Generate</button>
+    </div>
+</div>
 <router-outlet></router-outlet>

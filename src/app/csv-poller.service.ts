@@ -121,6 +121,14 @@ export class CsvPollerService {
         this.statesCountries = hmap;
     }
 
-    // TODO ready 
 
+
+    // TODO ready 
+    getCountries() {
+        return Array.from(this.statesCountries.keys());
+    }
+
+    getStatesOfCountry(country: string) {
+        return this.statesCountries.get(country);
+    }
 }
