@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
+import { CsvPollerService } from './csv-poller.service';
 @NgModule({
   declarations: [
     AppComponent
@@ -12,7 +12,7 @@ import { AppComponent } from './app.component';
     BrowserModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [ CsvPollerService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
