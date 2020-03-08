@@ -1,22 +1,25 @@
-# base image
+#
+# Covid19-Simple-Graphs
+# Copyright (C) 2020 aleskandro
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
 FROM node:10.15.3
-
-# set working directory
-RUN mkdir /code
 WORKDIR /code
-
-# add `/usr/src/app/node_modules/.bin` to $PATH
 ENV PATH /usr/src/app/node_modules/.bin:$PATH
-
-# install and cache app dependencies
+RUN npm install -g yarn @angular/cli
 COPY package.json ./package.json
-RUN npm install -g yarn
-RUN npm install -g @angular/cli
 RUN yarn install
-
-# add app (for production)
-# COPY . /usr/src/app
-
-# start app
 CMD ng serve --host 0.0.0.0 --disable-host-check
 

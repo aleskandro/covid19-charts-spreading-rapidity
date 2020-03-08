@@ -1,27 +1,38 @@
-# A9CovidGraphs
+# Covid19 Simple Graphs
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.0.5.
+The lack of comparative and useful information by the news media in Italy brought me to this simple front-end project.
+It allows to draw charts about the spreading of Covid19: absolute data, rapidity of spread, and acceleration. It also permits to compare data between countries/state.
+These charts could absoletely lack scientific meaning: I'm not an epidemiology expert. But I would have them in these days and, initially, I started to make them manually through Octave. Based on the data-set available from [CSSEGISAndData](https://github.com/CSSEGISandData/COVID-19) repository, I just developed this simple front-end in a few hours.
+Moreover, I'm not a front-end developer, so I'm sorry for some hacky tricks and bugs, contributions are welcome :).
 
-## Development server
+The project is based on Angular 9, with Material, papaparse and canvasJs and it is distributed under the terms of [GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html) license.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Code scaffolding
+## Docker for develepment
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Use the docker image if you do not want to deploy Angular and other dependencies of this project in your host.
 
-## Build
+```bash
+docker-compose up
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+It will expose the angular development server through `http://localhost:4200`.
 
-## Running unit tests
+## License
+```
+    Covid19-Simple-Graphs
+    Copyright (C) 2020 aleskandro
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-## Running end-to-end tests
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+```

@@ -18,10 +18,13 @@
 version: '3'
 
 services:
-  frontend_dev:
-    build: ./
-    ports:
-        - 4200:4200
-    volumes:
-        - ./:/code
+    frontend:
+        build: 
+            context: ./
+            dockerfile: Dockerfile.production
+        restart: always
+        environment:
+            NGINX_PORT: 80
+        ports:
+            - 8808:80
 

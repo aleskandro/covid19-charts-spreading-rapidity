@@ -1,107 +1,121 @@
 <div class="main-container" >
 
-    <h1>It works</h1>
-    <form [formGroup]="generatorFormGroup" (ngSubmit)="generate(generatorFormGroup)" *ngIf="initialized">
-    <div class="selector first">
-        <mat-checkbox class="full-width-field pad" formControlName="firstWorld" 
-                                              (click)="setWorldValidator(generatorFormGroup, 'first')">
-            World data
-        </mat-checkbox>
-        <mat-form-field class="full-width-field">
-            <mat-label>First country</mat-label>
-            <mat-select formControlName="firstCountry" required>
-                <mat-option *ngFor="let country of svc.getCountries()" [value]="country">{{country}}</mat-option>
-            </mat-select>
-        </mat-form-field>
-        <div *ngIf="svc.getStatesOfCountry(generatorFormGroup.get('firstCountry').value).length > 0">
-            <mat-checkbox class="full-width-field pad" formControlName="firstAllStates" 
-                                                  (click)="setStateValidator(generatorFormGroup, 'first')">
-                Aggregate 
-                all states for {{generatorFormGroup.get('firstCountry').value}}
-            </mat-checkbox>
-            <mat-form-field class="full-width-field">
-                <mat-label>First country's state</mat-label>
-                <mat-select formControlName="firstState">
-                    <mat-option 
-                        *ngFor="let state of svc.getStatesOfCountry(generatorFormGroup.get('firstCountry').value)" 
-                        [value]="state">
-                            {{state}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-            <div class="time-displacement">
-                <mat-label>Time displacement (first)</mat-label>
-                <mat-slider class="full-width-field"
-                    thumbLabel
-                    tickInterval="1" [min]="-svc.time.length + 2" [max]="svc.time.length - 2"
-                    formControlName="firstDisplacement">
-                </mat-slider>
+    <mat-accordion>
+        <mat-expansion-panel expanded="true">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                   Covid-19 simple data visualization
+                </mat-panel-title>
+                <mat-panel-description>
+                    General infos
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <h1>Covid-19 simple data visualization</h1>
+            <span>
+                The lack of comparative and useful information by the news media in Italy brought 
+                me to this simple front-end project.
+                It allows to draw charts about the spreading of Covid19: 
+                absolute data, rapidity of spread, and acceleration. 
+                It also permits to compare data between countries/state.
+                These charts could absoletely lack scientific meaning: 
+                I'm not an epidemiology expert. But I would have them in these days and, initially, 
+                I started to make them manually through Octave. Based on the data-set available from
+                <a href="https://github.com/CSSEGISandData/COVID-19" target="_blank">CSSEGISAndData</a> repository, 
+                I just developed this simple front-end in a few hours.
+                Moreover, I'm not a front-end developer, so I'm sorry for some hacky 
+                tricks and bugs, contributions are welcome :).
+
+                The project is based on Angular 9, with Material, papaparse and canvasJs 
+                and it is distributed under the terms of 
+                <a href="https://www.gnu.org/licenses/gpl-3.0.en.html" target="_blank">GPLv3</a> license.
+            </span>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Charts generator
+                </mat-panel-title>
+                <mat-panel-description>
+                    Select time-series to draw charts
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <form [formGroup]="generatorFormGroup" (ngSubmit)="generate(generatorFormGroup)" *ngIf="initialized">
+                <div class="selector first">
+                    <mat-checkbox class="full-width-field pad" formControlName="firstWorld" 
+                                                          (click)="setWorldValidator(generatorFormGroup)">
+                        World data
+                    </mat-checkbox>
+                    <mat-form-field class="full-width-field">
+                        <mat-label>First country</mat-label>
+                        <mat-select formControlName="firstCountry" required (selectionChange)="countryChanged($event)">
+                            <mat-option *ngFor="let country of svc.getCountries()" [value]="country">{{country}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <div >
+                        <mat-checkbox class="full-width-field pad" formControlName="firstAllStates" 
+                                                                   (click)="setStateValidator(generatorFormGroup)">
+                            Aggregate 
+                            all states for {{generatorFormGroup.get('firstCountry').value}}
+                        </mat-checkbox>
+                        <mat-form-field class="full-width-field">
+                            <mat-label>First country's state</mat-label>
+                            <mat-select formControlName="firstState">
+                                <mat-option 
+                                    *ngFor="let state of svc.getStatesOfCountry(generatorFormGroup.get('firstCountry').value)" 
+                                    [value]="state">
+                                        {{state}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="time-displacement">
+                        <mat-label>Time displacement (first)</mat-label>
+                        <mat-slider class="full-width-field"
+                            thumbLabel
+                            tickInterval="1" [min]="-svc.time.length + 2" [max]="svc.time.length - 2"
+                            formControlName="firstDisplacement">
+                        </mat-slider>
+                    </div>
+                </div>
+
+                <div>
+                    <button mat-raised-button color="primary" class="btn btn-responsive" [disabled]="disabledSubmit" type="submit">Add to graph</button>
+                    <button type="button" mat-raised-button class="btn btn-responsive" color="warn" (click)="resetUI()">Clean all</button>
+                </div>
+            </form>
+        </mat-expansion-panel>
+    </mat-accordion>
+
+    <mat-divider></mat-divider>
+
+    <mat-accordion>
+        <mat-expansion-panel expanded="true">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Charts
+                </mat-panel-title>
+                <mat-panel-description>
+                    
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div [hidden]="hideCharts">
+                <mat-tab-group [selectedIndex]="selectedTab"
+                           (selectedIndexChange)="selectedTabChanged($event)">
+                    <mat-tab label="Absolute" >
+                        <div [innerHtml]="absoluteHtml"></div>
+                    </mat-tab>
+                    <mat-tab label="Rapidity" [innerHtml]="rapidityHtml">
+                        <div [innerHtml]="rapidityHtml"></div>
+                    </mat-tab>
+                    <mat-tab label="Acceleration" [innerHtml]="accelHtml">
+                        <div [innerHtml]="accelHtml"></div>
+                    </mat-tab>
+                </mat-tab-group>
             </div>
-        </div>
-    </div>
-    <div class="selector second">
-        <mat-checkbox class="full-width-field pad" formControlName="secondWorld" 
-                                              (click)="setWorldValidator(generatorFormGroup, 'second')">
-            World data
-        </mat-checkbox>
-        <mat-form-field class="full-width-field">
-            <mat-label>Second country</mat-label>
-            <mat-select formControlName="secondCountry" required>
-                <mat-option *ngFor="let country of svc.getCountries()" [value]="country">{{country}}</mat-option>
-            </mat-select>
-        </mat-form-field>
-        <div *ngIf="svc.getStatesOfCountry(generatorFormGroup.get('secondCountry').value).length > 0">
-            <mat-checkbox class="full-width-field pad" formControlName="secondAllStates" 
-                                                  (click)="setStateValidator(generatorFormGroup, 'second')">
-                Aggregate 
-                all states for {{generatorFormGroup.get('secondCountry').value}}
-            </mat-checkbox>
-
-            <mat-form-field class="full-width-field">
-                <mat-label>Second country's state</mat-label>
-                <mat-select formControlName="secondState">
-                    <mat-option 
-                        *ngFor="let state of svc.getStatesOfCountry(generatorFormGroup.get('secondCountry').value)" 
-                        [value]="state">
-                            {{state}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-            <div class="time-displacement">
-                <mat-label>Time displacement (second)</mat-label>
-                <mat-slider class="full-width-field"
-                    thumbLabel
-                    tickInterval="1" [min]="-svc.time.length + 2" [max]="svc.time.length - 2"
-                    formControlName="secondDisplacement">
-                </mat-slider>
-            </div>
-        </div>
-    </div>
-
-<!--    <div class="selector second" *ngIf="initialized">
-        <mat-checkbox class="full-width-field" [formControl]="globalData">Global Data</mat-checkbox>
-        <mat-form-field *ngIf="!globalData.value" class="full-width-field">
-            <mat-label>Second country</mat-label>
-            <mat-select [(value)]="selectedSecondCountry">
-                <mat-option *ngFor="let country of svc.getCountries()" [value]="country">{{country}}</mat-option>
-            </mat-select>
-        </mat-form-field>
-        <div *ngIf="svc.getStatesOfCountry(selectedSecondCountry).length > 0 && !globalData.value">
-            <mat-form-field class="full-width-field">
-                <mat-label>Second country's state</mat-label>
-                <mat-select [disabled]="allStatesSecond.value" [(value)]="selectedSecondState">
-                    <mat-option *ngFor="let state of svc.getStatesOfCountry(selectedSecondCountry)" [value]="state">
-                        {{state}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-            <mat-checkbox class="full-width-field" [formControl]="allStatesSecond">Aggregate all states data for {{selectedSecondCountry}}</mat-checkbox>
-
-        </div>
-</div>-->
-        <div>
-            <button mat-raised-button color="primary" type="submit">Generate</button>
-        </div>
-    </form>
+        </mat-expansion-panel>
+    </mat-accordion>
 </div>
+
 <router-outlet></router-outlet>

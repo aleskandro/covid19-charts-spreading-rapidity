@@ -1,3 +1,21 @@
+/* 
+ *  Covid19-Simple-Graphs
+ *  Copyright (C) 2020 aleskandro
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 import { Injectable } from '@angular/core';
 import * as Papa from 'papaparse';
 import { Line } from './models/line';
@@ -27,7 +45,6 @@ export class CsvPollerService {
         this.confirmed = new Array<Line>();
         this.deaths = new Array<Line>();
         this.recovered = new Array<Line>();
-        console.log(this);
         this.parse(confirmedUrl, "confirmed");
         this.parse(recoveredUrl, "recovered");
         this.parse(deathsUrl, "deaths");
