@@ -1,11 +1,14 @@
 # Covid19 Simple Graphs
 
+[http://covid-19-spreading.alessandrodistefano.eu](http://covid-19-spreading.alessandrodistefano.eu)
+
 The lack of comparative and useful information by the news media in Italy brought me to this simple front-end project.
 It allows to draw charts about the spreading of Covid19: absolute data, rapidity of spread, and acceleration. It also permits to compare data between countries/state.
 These charts could absoletely lack scientific meaning: I'm not an epidemiology expert. But I would have them in these days and, initially, I started to make them manually through Octave. Based on the data-set available from [CSSEGISAndData](https://github.com/CSSEGISandData/COVID-19) repository, I just developed this simple front-end in a few hours.
 Moreover, I'm not a front-end developer, so I'm sorry for some hacky tricks and bugs, contributions are welcome :).
 
 The project is based on Angular 9, with Material, papaparse and canvasJs and it is distributed under the terms of [GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html) license.
+
 
 
 ## Docker for develepment
