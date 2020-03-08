@@ -73,33 +73,55 @@ export class CsvPollerService {
             }
         });
     }
+    
+    noopReducer =  o => true;
+    sumReducer = (cur, ret) => {
+        for (let i = 0; i < ret.data.length; i++) {
+            ret.data[i] += cur.data[i];
+        }
+        return ret;
+    };
 
-    getStateData(country : string, state : string) {
+
+    getStateData(country : string, state : string, displacement : number) {
         let filter = o => o.state == state && o.country == country;
-        let c = this.confirmed.find(filter);
-        let d = this.recovered.find(filter);
-        let r = this.deaths.find(filter);
-
-        return new PackedData(c, r, d, this.time);
+        return this._getData(country, state, filter, this.noopReducer, displacement);
     }
 
-
-    getCountryData(country: String) {
+    getCountryData(country: String, displacement : number) {
         let filter = o => o.country == country;
+        return this._getData(country, null, filter, this.sumReducer, displacement);
+    }
 
-        let reducer = (cur, ret) => {
-            for (let i = 0; i < ret.data.length; i++) {
-                ret.data[i] += cur.data[i];
-            }
-            ret.state = null;
-            return ret;
-        };
+    getWorldData(displacement : number) {
+        return this._getData("World", null, this.noopReducer, this.sumReducer, displacement);
+    }
+    _getData(country: String, state: String, filter, reducer, displacement : number) {
+        let c = JSON.parse(JSON.stringify(this.confirmed)).filter(filter).reduce(reducer);
+        let d = JSON.parse(JSON.stringify(this.deaths)).filter(filter).reduce(reducer);
+        let r = JSON.parse(JSON.stringify(this.recovered)).filter(filter).reduce(reducer);
+        c.country = country;
+        c.state = state;
+        c.data = this._displace(c.data, displacement);
+        d.country = country;
+        d.state = state;
+        d.data = this._displace(d.data, displacement);
+        r.country = country;
+        r.state = state;
+        r.data = this._displace(r.data, displacement);
 
-        let c = this.confirmed.filter(filter).reduce(reducer);
-        let d = this.deaths.filter(filter).reduce(reducer);
-        let r = this.recovered.filter(filter).reduce(reducer);
+        let ret = new PackedData(c, r, d, this.time);
+        return ret;
+    }
 
-        return new PackedData(c, r, d, this.time);
+    _displace(a, displacement) {
+        if (displacement > 0) {
+            let d = displacement
+            return (new Array(d).fill(0)).concat(a).slice(0,-d);
+        } else {
+            let d = -displacement;
+            return a.concat((new Array(d).fill(0))).slice(d);
+        }
     }
 
     _setStatesCountries() {
@@ -121,9 +143,6 @@ export class CsvPollerService {
         this.statesCountries = hmap;
     }
 
-
-
-    // TODO ready 
     getCountries() {
         return Array.from(this.statesCountries.keys());
     }
@@ -131,4 +150,5 @@ export class CsvPollerService {
     getStatesOfCountry(country: string) {
         return this.statesCountries.get(country);
     }
+
 }

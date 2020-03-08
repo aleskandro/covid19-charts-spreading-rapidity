@@ -1,34 +1,93 @@
-<div class="main-container" style="background-color:#eee; height:100vh">
+<div class="main-container" >
 
     <h1>It works</h1>
-    <div class="selector first" *ngIf="initialized">
-        <mat-form-field>
+    <form [formGroup]="generatorFormGroup" (ngSubmit)="generate(generatorFormGroup)" *ngIf="initialized">
+    <div class="selector first">
+        <mat-checkbox class="full-width-field pad" formControlName="firstWorld" 
+                                              (click)="setWorldValidator(generatorFormGroup, 'first')">
+            World data
+        </mat-checkbox>
+        <mat-form-field class="full-width-field">
             <mat-label>First country</mat-label>
-            <mat-select [(value)]="selectedFirstCountry">
+            <mat-select formControlName="firstCountry" required>
                 <mat-option *ngFor="let country of svc.getCountries()" [value]="country">{{country}}</mat-option>
             </mat-select>
         </mat-form-field>
-        <div *ngIf="svc.getStatesOfCountry(selectedFirstCountry).length > 0">
-            <mat-form-field>
+        <div *ngIf="svc.getStatesOfCountry(generatorFormGroup.get('firstCountry').value).length > 0">
+            <mat-checkbox class="full-width-field pad" formControlName="firstAllStates" 
+                                                  (click)="setStateValidator(generatorFormGroup, 'first')">
+                Aggregate 
+                all states for {{generatorFormGroup.get('firstCountry').value}}
+            </mat-checkbox>
+            <mat-form-field class="full-width-field">
                 <mat-label>First country's state</mat-label>
-                <mat-select [disabled]="allStatesFirst.value" [(value)]="selectedFirstState">
-                    <mat-option *ngFor="let state of svc.getStatesOfCountry(selectedFirstCountry)" [value]="state">
-                        {{state}}
+                <mat-select formControlName="firstState">
+                    <mat-option 
+                        *ngFor="let state of svc.getStatesOfCountry(generatorFormGroup.get('firstCountry').value)" 
+                        [value]="state">
+                            {{state}}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
-                <mat-checkbox class="example-margin" [formControl]="allStatesFirst">Aggregate all states data for {{selectedFirstCountry}}</mat-checkbox>
+            <div class="time-displacement">
+                <mat-label>Time displacement (first)</mat-label>
+                <mat-slider class="full-width-field"
+                    thumbLabel
+                    tickInterval="1" [min]="-svc.time.length + 2" [max]="svc.time.length - 2"
+                    formControlName="firstDisplacement">
+                </mat-slider>
+            </div>
         </div>
     </div>
-    <div class="selector second" *ngIf="initialized">
-        <mat-form-field>
+    <div class="selector second">
+        <mat-checkbox class="full-width-field pad" formControlName="secondWorld" 
+                                              (click)="setWorldValidator(generatorFormGroup, 'second')">
+            World data
+        </mat-checkbox>
+        <mat-form-field class="full-width-field">
+            <mat-label>Second country</mat-label>
+            <mat-select formControlName="secondCountry" required>
+                <mat-option *ngFor="let country of svc.getCountries()" [value]="country">{{country}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <div *ngIf="svc.getStatesOfCountry(generatorFormGroup.get('secondCountry').value).length > 0">
+            <mat-checkbox class="full-width-field pad" formControlName="secondAllStates" 
+                                                  (click)="setStateValidator(generatorFormGroup, 'second')">
+                Aggregate 
+                all states for {{generatorFormGroup.get('secondCountry').value}}
+            </mat-checkbox>
+
+            <mat-form-field class="full-width-field">
+                <mat-label>Second country's state</mat-label>
+                <mat-select formControlName="secondState">
+                    <mat-option 
+                        *ngFor="let state of svc.getStatesOfCountry(generatorFormGroup.get('secondCountry').value)" 
+                        [value]="state">
+                            {{state}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <div class="time-displacement">
+                <mat-label>Time displacement (second)</mat-label>
+                <mat-slider class="full-width-field"
+                    thumbLabel
+                    tickInterval="1" [min]="-svc.time.length + 2" [max]="svc.time.length - 2"
+                    formControlName="secondDisplacement">
+                </mat-slider>
+            </div>
+        </div>
+    </div>
+
+<!--    <div class="selector second" *ngIf="initialized">
+        <mat-checkbox class="full-width-field" [formControl]="globalData">Global Data</mat-checkbox>
+        <mat-form-field *ngIf="!globalData.value" class="full-width-field">
             <mat-label>Second country</mat-label>
             <mat-select [(value)]="selectedSecondCountry">
                 <mat-option *ngFor="let country of svc.getCountries()" [value]="country">{{country}}</mat-option>
             </mat-select>
         </mat-form-field>
-        <div *ngIf="svc.getStatesOfCountry(selectedSecondCountry).length > 0">
-            <mat-form-field>
+        <div *ngIf="svc.getStatesOfCountry(selectedSecondCountry).length > 0 && !globalData.value">
+            <mat-form-field class="full-width-field">
                 <mat-label>Second country's state</mat-label>
                 <mat-select [disabled]="allStatesSecond.value" [(value)]="selectedSecondState">
                     <mat-option *ngFor="let state of svc.getStatesOfCountry(selectedSecondCountry)" [value]="state">
@@ -36,11 +95,13 @@
                     </mat-option>
                 </mat-select>
             </mat-form-field>
-                <mat-checkbox class="example-margin" [formControl]="allStatesSecond">Aggregate all states data for {{selectedSecondCountry}}</mat-checkbox>
+            <mat-checkbox class="full-width-field" [formControl]="allStatesSecond">Aggregate all states data for {{selectedSecondCountry}}</mat-checkbox>
+
         </div>
-    </div>
-    <div>
-        <button mat-button color="primary" (click)="generate()">Generate</button>
-    </div>
+</div>-->
+        <div>
+            <button mat-raised-button color="primary" type="submit">Generate</button>
+        </div>
+    </form>
 </div>
 <router-outlet></router-outlet>

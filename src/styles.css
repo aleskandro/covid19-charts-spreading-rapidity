@@ -1,4 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { 
+    margin: 0; 
+    font-family: Roboto, "Helvetica Neue", sans-serif; 
+    background-color: #f3f3f3; 
+    height:100vh;
+    padding: 0 20px;
+}
+
+.full-width-field {
+    width: 100%;
+}
+
+.selector {
+    padding-bottom: 30px;
+}
+.pad {
+    margin: 10px 0;
+    display: inline-block;
+}
