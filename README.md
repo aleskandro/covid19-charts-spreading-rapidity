@@ -56,7 +56,6 @@ The repository also contains a Dockerfile.production that provide a multi-stage 
 
 It will expose the angular development server through `http://localhost:4200`.
 
-
 ## License
 ```
     Covid19-Simple-Graphs
