@@ -1,7 +1,7 @@
 <div class="main-container" >
 
     <mat-accordion>
-        <mat-expansion-panel expanded="true">
+        <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)">
             <mat-expansion-panel-header>
                 <mat-panel-title>
                    Covid-19 simple data visualization
@@ -32,7 +32,7 @@
             </span>
         </mat-expansion-panel>
 
-        <mat-expansion-panel>
+        <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)">
             <mat-expansion-panel-header>
                 <mat-panel-title>
                     Charts generator

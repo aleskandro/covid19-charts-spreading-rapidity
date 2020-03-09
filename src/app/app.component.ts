@@ -44,6 +44,7 @@ export class AppComponent {
     rapidityHtml;
     accelHtml;
     breakpoint = 1;
+    step = 0;
 
     onResize(event) {
         if (event.target.innerWidth <= 800) {
@@ -83,6 +84,7 @@ export class AppComponent {
         }
         this.disabledSubmit = true;
         this._get(formData, 'first');
+        this.setStep(2);
         this.redraw();
     }
 
@@ -117,6 +119,10 @@ export class AppComponent {
         else
             this.breakpoint = this.dataPoints.length;
         console.log(this.breakpoint);
+    }
+
+    setStep(s) {
+        this.step = s;
     }
 
     differentiate(points) {
@@ -178,6 +184,7 @@ export class AppComponent {
         console.log("init");
         this.initialized = true;
         this.generate(this.generatorFormGroup);
+        this.setStep(0);
     }
 
     ngOnInit() {
