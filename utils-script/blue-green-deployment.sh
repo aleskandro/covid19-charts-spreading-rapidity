@@ -1,13 +1,16 @@
 #!/bin/bash
 echo "---"
 date
+#set -ex
+
 IMAGE=aleskandro/covid19-spreading-charts
+REPO=/root/covid19-charts-spreading-rapidity
 GREENPORT=8800
 BLUEPORT=8801
 EXPOSEDPORT=8888
-
-iptables -L | grep $EXPOSEDPORT > /dev/null 2>&1
+iptables -L | grep $EXPOSEDPORT >/dev/null 2>&1
 CHECK=$?
+
 if [ $CHECK -ne 0 ]; then
         echo -e "\e[91mMain input rule does not exists. Creating...\e[39m"
         iptables -A INPUT -p tcp --dport $EXPOSEDPORT -j ACCEPT
@@ -16,15 +19,20 @@ fi
 function bgdeploy {
         echo -e "\e[101mRolling deployment: $4 --> $3\e[49m"
         docker stop $3 > /dev/null
-        docker rm $3 > /dev/null
-        docker run -p $1:80 -d --name $3 $IMAGE
+        docker rm $3   > /dev/null
+        docker run -p $1:80 -d --name $3 aleskandro/covid19-spreading-charts
         while true; do
                 if [ $(curl -LI http://localhost:$1 -o /dev/null -w '%{http_code}\n' -s) == "200" ]; then
                         break
                 fi
                 sleep 1
         done
-        iptables -t nat -D PREROUTING -p tcp --dport $EXPOSEDPORT -j REDIRECT --to-ports $2
+        echo "Removing old redirect"
+        R=0
+        while [ $R -eq 0 ]; do
+                iptables -t nat -D PREROUTING -p tcp --dport $EXPOSEDPORT -j REDIRECT --to-ports $2 || R=1
+        done
+        echo "Adding new redirect"
         iptables -t nat -A PREROUTING -p tcp --dport $EXPOSEDPORT -j REDIRECT --to-ports $1
         docker stop $4 > /dev/null
 }
