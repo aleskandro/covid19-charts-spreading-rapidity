@@ -92,22 +92,22 @@
 
     <mat-divider></mat-divider>
 
-    <mat-accordion>
+    <mat-accordion *ngIf="initialized && dataPoints.length > 0">
         <mat-expansion-panel expanded="true">
             <mat-expansion-panel-header>
                 <mat-panel-title>
                     Charts
                 </mat-panel-title>
-                <mat-panel-description *ngIf="initialized && dataPoints.length > 0">
+                <mat-panel-description >
                     <b>Last update</b>: {{getDate(dataPoints[0].time.slice(-1).pop()) | date:'fullDate'}}
                 </mat-panel-description>
             </mat-expansion-panel-header>
             <div [hidden]="hideCharts">
-                <mat-tab-group 
-                           (selectedIndexChange)="selectedTabChanged($event)">
-                    <mat-tab label="Last data" class="table-data" *ngIf="initialized && dataPoints.length > 0">
-                        <mat-grid-list [cols]="breakpoint" rowHeight="200px" (window:resize)="onResize($event)">
-                            <mat-grid-tile *ngFor="let d of dataPoints" >
+                <mat-tab-group
+                        (selectedIndexChange)="selectedTabChanged($event)">
+                    <mat-tab label="Last data" class="table-data">
+                        <mat-grid-list [cols]="breakpoint" rowHeight="250px" (window:resize)="onResize($event)">
+                            <mat-grid-tile *ngFor="let d of dataPoints; index as i">
                                 <div class="last-data">
                                     <div class="country">
                                         {{d.confirmed.country}}
@@ -123,6 +123,13 @@
                                     </div>
                                     <div class="deaths">
                                         Deaths:  <b>{{d.deaths.data.slice(-1).pop()}}</b>
+                                    </div>
+                                    <div class="remove">
+                                        <button mat-raised-button 
+                                            color="warn" 
+                                            type="button" 
+                                            (click)="remove(i)">Remove
+                                        </button>
                                     </div>
                                 </div>
                             </mat-grid-tile>

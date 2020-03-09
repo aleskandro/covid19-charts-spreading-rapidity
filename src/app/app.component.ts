@@ -83,6 +83,10 @@ export class AppComponent {
         }
         this.disabledSubmit = true;
         this._get(formData, 'first');
+        this.redraw();
+    }
+
+    redraw() {
         this.setDiff();
         setTimeout(() => {this.disabledSubmit = false;}, 500);
         let absoluteHtml = "";
@@ -103,6 +107,10 @@ export class AppComponent {
         this.setBreakpoint();
     }
 
+    remove(i) {
+        this.dataPoints.splice(i,1);
+        this.redraw();
+    }
     setBreakpoint() {
         if (this.dataPoints.length > 4)
             this.breakpoint = 4;
@@ -184,7 +192,7 @@ export class AppComponent {
 
     constructor(public svc: CsvPollerService, private _formBuilder: FormBuilder, private sanitized: DomSanitizer) {
         setTimeout(this.initializer, 500); // TODO hacky, to be solved
-        this.selectedTab = 1;
+        this.selectedTab = 0;
         this.absoluteHtml = '';
         this.rapidityHtml = "";
         this.accelHtml = '';
