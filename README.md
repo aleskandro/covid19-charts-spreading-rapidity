@@ -1,6 +1,6 @@
 # Covid19 Simple Graphs
 
-Avilable at [http://covid-19-spreading.alessandrodistefano.eu](http://covid-19-spreading.alessandrodistefano.eu)
+Available (no ssl currently) at [http://covid-19-spreading.alessandrodistefano.eu](http://covid-19-spreading.alessandrodistefano.eu)
 
 The lack of comparative and useful information by the news media in Italy brought me to this simple front-end project.
 It allows to draw charts about the spreading of Covid19: absolute data, rapidity of spread, and acceleration. It also permits to compare data between countries/state.
