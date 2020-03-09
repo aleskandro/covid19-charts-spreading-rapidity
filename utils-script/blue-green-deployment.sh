@@ -1,15 +1,13 @@
 #!/bin/bash
 echo "---"
 date
-#set -ex
 IMAGE=aleskandro/covid19-spreading-charts
-REPO=/root/covid19-charts-spreading-rapidity
 GREENPORT=8800
 BLUEPORT=8801
 EXPOSEDPORT=8888
+
 iptables -L | grep $EXPOSEDPORT > /dev/null 2>&1
 CHECK=$?
-
 if [ $CHECK -ne 0 ]; then
         echo -e "\e[91mMain input rule does not exists. Creating...\e[39m"
         iptables -A INPUT -p tcp --dport $EXPOSEDPORT -j ACCEPT
@@ -19,7 +17,7 @@ function bgdeploy {
         echo -e "\e[101mRolling deployment: $4 --> $3\e[49m"
         docker stop $3 > /dev/null
         docker rm $3 > /dev/null
-        docker run -p $1:80 -d --name $3 aleskandro/covid19-spreading-charts
+        docker run -p $1:80 -d --name $3 $IMAGE
         while true; do
                 if [ $(curl -LI http://localhost:$1 -o /dev/null -w '%{http_code}\n' -s) == "200" ]; then
                         break
