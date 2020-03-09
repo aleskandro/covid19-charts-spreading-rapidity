@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Covid-19 outbreak | Simple Data Visualization</title>
+  <base href="/">
+  <meta name="robots" content="index, follow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="During the Covid19 outbreak in Italy, this simple project which allows
+                                    to draw different charts about spreading, velocity and 
+                                    acceleration of the Covid19 epidemic. It uses epidemic dataset from 
+                                    2019-nCoV Data Repository by Johns Hopkins CSSE.">
+
+  <meta property="og:title" content="Covid-19 outbreak | Simple Data Visualization">
+  <meta property="og:description" content="During the Covid19 outbreak in Italy, this simple project which allows
+                                    to draw different charts about spreading, velocity and 
+                                    acceleration of the Covid19 epidemic. It uses epidemic dataset from 
+                                    2019-nCoV Data Repository by Johns Hopkins CSSE.">
+  <meta property="og:url" content="https://covid-19-spreading.alessandrodistefano.eu/">
+
+  <meta name="twitter:title" content="Covid-19 outbreak | Simple Data Visualization">
+  <meta name="twitter:description" content="During the Covid19 outbreak in Italy, this simple project which allows
+                                    to draw different charts about spreading, velocity and 
+                                    acceleration of the Covid19 epidemic. It uses epidemic dataset from 
+                                    2019-nCoV Data Repository by Johns Hopkins CSSE.">
+
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <h1>Covid19 Simple Graphs</h1>
+
+    <p>Available at <a href="https://covid-19-spreading.alessandrodistefano.eu">https://covid-19-spreading.alessandrodistefano.eu</a></p>
+
+    <p>The lack of comparative and quantitative information by the news media in Italy brought 
+    me to this simple project.
+    It allows to draw charts about the spreading of Covid19: 
+    absolute data, rapidity of spread, and acceleration.
+    It can also be used to compare data between countries/state.
+    These charts could absoletely lack any scientific meaning: 
+    I'm not an epidemiology expert, but I would have them to compare Italy's outbreak crisis
+    with other countries 
+    and to have spreading velocity which is not currently announced by news media.
+    Initially, I started to draw them manually through 
+    <a href="https://www.gnu.org/software/octave/">Octave</a>.
+    Based on the data-set available at
+    <a href="https://github.com/CSSEGISandData/COVID-19">CSSEGISAndData</a>, 
+    I just developed this simple front-end in a few hours with the hope it 
+    can be useful for someone else during this COVID-19 outbreak, in Italy and in the world.
+    However, I'm not a front-end developer and I'm sorry for some hacky 
+    tricks and bugs: contributions are welcome :).</p>
+
+    <p>The project is based on Angular 9, with Material, papaparse and canvasJs 
+    and it is distributed under the terms of 
+    <a href="https://github.com/aleskandro/covid19-charts-spreading-rapidity/blob/master/LICENSE">GPLv3</a> license.</p>
+
+    <h2>Covid-19 data-set limitations</h2>
+
+    <p>As already stated, comparing covid-19 spreading between countries could lack
+    scientific meaning, especially with the current dataset.</p>
+
+    <p>Infact, with the current outbreak dataset we have only <code>confirmed</code>,<code>recovered</code> and <code>deaths</code> cases per country/state;
+    it would be better to also have the number of performed tests. </p>
+
+    <p>Other considerations about limitations of these data can be made both from a stastical 
+    and from a medical point of view.</p>
+
+    <p>I hope reasearch will start publishing about modeling of this epidemic as soon as a possible,
+    with all the tools we have today like Complex networks and so on.</p>
+
+    <p>If you want to contribute, please feel free of starting a new issue or forking and continuing development. 
+    If I will have time, I will try to improve the code and the available features.</p>
+
+    <h2>Docker for develepment</h2>
+
+    <p>Use the docker image if you do not want to deploy Angular and other dependencies of this project in your host.</p>
+
+    <p><code>bash
+    docker-compose up
+    </code></p>
+
+    <p>It will expose the angular development server through <code>http://localhost:4200</code>.</p>
+
+    <h2>License</h2>
+
+    <pre><code>
+        Covid19-Simple-Graphs
+        Copyright (C) 2020 aleskandro
+        This program is free software: you can redistribute it and/or modify
+        it under the terms of the GNU General Public License as published by
+        the Free Software Foundation, either version 3 of the License, or
+        (at your option) any later version.
+
+        This program is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+        GNU General Public License for more details.
+
+        You should have received a copy of the GNU General Public License
+        along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.
+    </code></pre>
+</body>
+
+</html>
