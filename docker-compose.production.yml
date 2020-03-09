@@ -19,9 +19,7 @@ version: '3'
 
 services:
     frontend:
-        build: 
-            context: ./
-            dockerfile: Dockerfile.production
+        image: aleskandro/covid19-spreading-charts:latest
         restart: always
         environment:
             NGINX_PORT: 80
