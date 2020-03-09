@@ -58,11 +58,30 @@ mat-divider {
 }
 .last-data .deaths {
     color: #f44236;
+    padding-bottom: 10px;
 }
 
+.mat-expansion-panel-header-description {
+    flex-grow: 0 !important;
+}
+
+.chart-cont {
+    padding-top: 30px;
+}
 @media only screen and (max-width: 780px) {
   .btn-responsive {
     margin-right: 0 !important;
     width: 100%;
   }
 }
+
+a, a:visited, a:hover, a:visited {
+    color: #3f51b5;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+a:hover {
+    color: #f44236;
+}
+

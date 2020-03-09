@@ -106,7 +106,7 @@
                 <mat-tab-group
                         (selectedIndexChange)="selectedTabChanged($event)">
                     <mat-tab label="Last data" class="table-data">
-                        <mat-grid-list [cols]="breakpoint" rowHeight="250px" (window:resize)="onResize($event)">
+                        <mat-grid-list [cols]="breakpoint" rowHeight="280px" (window:resize)="onResize($event)">
                             <mat-grid-tile *ngFor="let d of dataPoints; index as i">
                                 <div class="last-data">
                                     <div class="country">
@@ -125,10 +125,11 @@
                                         Deaths:  <b>{{d.deaths.data.slice(-1).pop()}}</b>
                                     </div>
                                     <div class="remove">
-                                        <button mat-raised-button 
-                                            color="warn" 
+                                        <button mat-fab 
+                                            color="white" 
                                             type="button" 
-                                            (click)="remove(i)">Remove
+                                            (click)="remove(i)">
+                                            <i class="material-icons">delete_forever</i>
                                         </button>
                                     </div>
                                 </div>
@@ -136,13 +137,13 @@
                         </mat-grid-list>
                     </mat-tab>
                     <mat-tab label="Absolute" >
-                        <div [innerHtml]="absoluteHtml"></div>
+                        <div class="chart-cont" [innerHtml]="absoluteHtml"></div>
                     </mat-tab>
                     <mat-tab label="Rapidity" [innerHtml]="rapidityHtml">
-                        <div [innerHtml]="rapidityHtml"></div>
+                        <div class="chart-cont" [innerHtml]="rapidityHtml"></div>
                     </mat-tab>
                     <mat-tab label="Acceleration" [innerHtml]="accelHtml">
-                        <div [innerHtml]="accelHtml"></div>
+                        <div class="chart-cont" [innerHtml]="accelHtml"></div>
                     </mat-tab>
                 </mat-tab-group>
             </div>
