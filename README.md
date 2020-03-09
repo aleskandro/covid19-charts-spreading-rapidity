@@ -1,15 +1,46 @@
 # Covid19 Simple Graphs
 
-Available (no ssl currently) at [http://covid-19-spreading.alessandrodistefano.eu](http://covid-19-spreading.alessandrodistefano.eu)
+Available at [https://covid-19-spreading.alessandrodistefano.eu](https://covid-19-spreading.alessandrodistefano.eu)
 
-The lack of comparative and useful information by the news media in Italy brought me to this simple front-end project.
-It allows to draw charts about the spreading of Covid19: absolute data, rapidity of spread, and acceleration. It also permits to compare data between countries/state.
-These charts could absoletely lack scientific meaning: I'm not an epidemiology expert. But I would have them in these days and, initially, I started to make them manually through Octave. Based on the data-set available from [CSSEGISAndData](https://github.com/CSSEGISandData/COVID-19) repository, I just developed this simple front-end in a few hours.
-Moreover, I'm not a front-end developer, so I'm sorry for some hacky tricks and bugs, contributions are welcome :).
+The lack of comparative and quantitative information by the news media in Italy brought 
+me to this simple project.
+It allows to draw charts about the spreading of Covid19: 
+absolute data, rapidity of spread, and acceleration.
+It can also be used to compare data between countries/state.
+These charts could absoletely lack any scientific meaning: 
+I'm not an epidemiology expert, but I would have them to compare Italy's outbreak crisis
+with other countries 
+and to have spreading velocity which is not currently announced by news media.
+Initially, I started to draw them manually through 
+[Octave](https://www.gnu.org/software/octave/).
+Based on the data-set available at
+[CSSEGISAndData](https://github.com/CSSEGISandData/COVID-19), 
+I just developed this simple front-end in a few hours with the hope it 
+can be useful for someone else during this COVID-19 outbreak, in Italy and in the world.
+However, I'm not a front-end developer and I'm sorry for some hacky 
+tricks and bugs: contributions are welcome :).
 
-The project is based on Angular 9, with Material, papaparse and canvasJs and it is distributed under the terms of [GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html) license.
 
+The project is based on Angular 9, with Material, papaparse and canvasJs 
+and it is distributed under the terms of 
+[GPLv3](https://github.com/aleskandro/covid19-charts-spreading-rapidity/blob/master/LICENSE) license.
 
+## Covid-19 data-set limitations
+
+As already stated, comparing covid-19 spreading between countries could lack
+scientific meaning, especially with the current dataset.
+
+Infact, with the current outbreak dataset we have only `confirmed`,`recovered` and `deaths` cases per country/state;
+it would be better to also have the number of performed tests. 
+
+Other considerations about limitations of these data can be made both from a stastical 
+and from a medical point of view.
+
+I hope reasearch will start publishing about modeling of this epidemic as soon as a possible,
+with all the tools we have today like Complex networks and so on.
+
+If you want to contribute, please feel free of starting a new issue or forking and continuing development. 
+If I will have time, I will try to improve the code and the available features.
 
 ## Docker for develepment
 
@@ -20,6 +51,7 @@ docker-compose up
 ```
 
 It will expose the angular development server through `http://localhost:4200`.
+
 
 ## License
 ```

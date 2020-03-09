@@ -81,6 +81,12 @@ a, a:visited, a:hover, a:visited {
     font-weight: 500;
 }
 
+.description {
+    font-size: 1.2em;
+    line-height:1.3;
+    text-align: justify;
+}
+
 a:hover {
     color: #f44236;
 }
