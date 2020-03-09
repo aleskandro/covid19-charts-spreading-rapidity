@@ -61,7 +61,7 @@ export class CsvPollerService {
                 let time = result.meta.fields.slice(4);
                 result.data.forEach((e) => {
                     var ts = [];
-                    time.slice(4).forEach((t) => {
+                    time.forEach((t) => {
                         ts.push(e[t]);
                     });
                     this[key].push(new Line(
