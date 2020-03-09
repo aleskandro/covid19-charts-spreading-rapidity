@@ -50,6 +50,10 @@ Use the docker image if you do not want to deploy Angular and other dependencies
 docker-compose up
 ```
 
+Or you can build the Dockerfile and run it exposing your preferred port.
+
+The repository also contains a Dockerfile.production that provide a multi-stage build for deploying via nginx the application.
+
 It will expose the angular development server through `http://localhost:4200`.
 
 
