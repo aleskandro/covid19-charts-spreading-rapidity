@@ -43,9 +43,11 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatExpansionModule} from '@angular/material/expansion';
+import { SortByPipe } from './sort-by.pipe';
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SortByPipe
   ],
   imports: [
     BrowserModule,

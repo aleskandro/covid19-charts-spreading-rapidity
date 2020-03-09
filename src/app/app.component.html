@@ -50,7 +50,7 @@
                     <mat-form-field class="full-width-field">
                         <mat-label>First country</mat-label>
                         <mat-select formControlName="firstCountry" required (selectionChange)="countryChanged($event)">
-                            <mat-option *ngFor="let country of svc.getCountries()" [value]="country">{{country}}</mat-option>
+                            <mat-option *ngFor="let country of svc.getCountries() | sortBy:'asc'" [value]="country">{{country}}</mat-option>
                         </mat-select>
                     </mat-form-field>
                     <div >
@@ -63,7 +63,9 @@
                             <mat-label>First country's state</mat-label>
                             <mat-select formControlName="firstState">
                                 <mat-option 
-                                    *ngFor="let state of svc.getStatesOfCountry(generatorFormGroup.get('firstCountry').value)" 
+                                    *ngFor="let state of 
+                                        svc.getStatesOfCountry(generatorFormGroup.get('firstCountry').value)
+                                        | sortBy:'asc'" 
                                     [value]="state">
                                         {{state}}
                                 </mat-option>
