@@ -112,7 +112,7 @@
                     Charts
                 </mat-panel-title>
                 <mat-panel-description >
-                    <b>Last update</b>: {{getDate(dataPoints[0].time.slice(-1).pop()) | date:'fullDate'}}
+                    Last update:&nbsp;<b>{{getDate(dataPoints[0].time.slice(-1).pop()) | date:'fullDate'}}</b>
                 </mat-panel-description>
             </mat-expansion-panel-header>
             <div [hidden]="hideCharts">
