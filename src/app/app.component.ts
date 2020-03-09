@@ -43,7 +43,15 @@ export class AppComponent {
     absoluteHtml;
     rapidityHtml;
     accelHtml;
+    breakpoint = 1;
 
+    onResize(event) {
+        if (event.target.innerWidth <= 800) {
+            this.breakpoint = 1;
+        } else {
+            this.setBreakpoint();
+        }
+    }
 
     reset() {
         this.dataPoints = new Array<PackedData>();
@@ -92,8 +100,16 @@ export class AppComponent {
         this.accelHtml = this.sanitized.bypassSecurityTrustHtml(accelHtml);
 
         this.selectedTabChanged(this.selectedTab);
+        this.setBreakpoint();
     }
 
+    setBreakpoint() {
+        if (this.dataPoints.length > 4)
+            this.breakpoint = 4;
+        else
+            this.breakpoint = this.dataPoints.length;
+        console.log(this.breakpoint);
+    }
 
     differentiate(points) {
         points.forEach( (p) => {
@@ -131,10 +147,7 @@ export class AppComponent {
                 };
                 let dp = [];
                 p.time.forEach((x, i) => {
-                    let y = parseInt(x.slice(0,4));
-                    let m = parseInt(x.slice(4,6))-1;
-                    let d = parseInt(x.slice(6,8));
-                    dp.push({ x: new Date(y,m,d), y: p[t].data[i]});
+                    dp.push({ x: this.getDate(x), y: p[t].data[i]});
                 });
                 d["dataPoints"] = dp;
                 data.push(d);
@@ -143,6 +156,12 @@ export class AppComponent {
         return data;
     }
 
+    getDate(t : string) {
+        let y = parseInt(t.slice(0,4));
+        let m = parseInt(t.slice(4,6))-1;
+        let d = parseInt(t.slice(6,8));
+        return new Date(y,m,d);
+    }
     initializer = () => {
         if (!this.svc.initialized) {
             setTimeout(this.initializer, 500);
@@ -165,7 +184,7 @@ export class AppComponent {
 
     constructor(public svc: CsvPollerService, private _formBuilder: FormBuilder, private sanitized: DomSanitizer) {
         setTimeout(this.initializer, 500); // TODO hacky, to be solved
-        this.selectedTab = 0;
+        this.selectedTab = 1;
         this.absoluteHtml = '';
         this.rapidityHtml = "";
         this.accelHtml = '';
@@ -174,14 +193,16 @@ export class AppComponent {
 
     selectedTabChanged(e) {
         this.selectedTab = e;
-        let charts = [ 
+        if (e == 0) // Table
+            return;
+        let charts = [
             { id: "absoluteChart", title: "Absolute", ytitle: "People", points: this.dataPoints },
             { id: "rapidityChart", title: "Rapidity", ytitle: "+ People/Day", points: this.dataPointsRapidity },
             { id: "accelChart", title: "Acceleration", ytitle: "+ People/(Day^2)", points: this.dataPointsAccel}
         ];
         this.dataPoints.forEach( (p,i) => {
             setTimeout(() => {
-                this.render(charts[e].points, charts[e].id, "", charts[e].ytitle, i);
+                this.render(charts[e-1].points, charts[e-1].id, "", charts[e-1].ytitle, i);
             }, 5);
         });
     }

@@ -43,6 +43,8 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {MatGridListModule} from '@angular/material/grid-list';
+
 import { SortByPipe } from './sort-by.pipe';
 @NgModule({
   declarations: [
@@ -71,7 +73,8 @@ import { SortByPipe } from './sort-by.pipe';
     ReactiveFormsModule,
     MatTabsModule,
     MatDividerModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatGridListModule
   ],
   providers: [ CsvPollerService ],
   bootstrap: [AppComponent]

@@ -98,13 +98,36 @@
                 <mat-panel-title>
                     Charts
                 </mat-panel-title>
-                <mat-panel-description>
-                    
+                <mat-panel-description *ngIf="initialized && dataPoints.length > 0">
+                    <b>Last update</b>: {{getDate(dataPoints[0].time.slice(-1).pop()) | date:'fullDate'}}
                 </mat-panel-description>
             </mat-expansion-panel-header>
             <div [hidden]="hideCharts">
-                <mat-tab-group [selectedIndex]="selectedTab"
+                <mat-tab-group 
                            (selectedIndexChange)="selectedTabChanged($event)">
+                    <mat-tab label="Last data" class="table-data" *ngIf="initialized && dataPoints.length > 0">
+                        <mat-grid-list [cols]="breakpoint" rowHeight="200px" (window:resize)="onResize($event)">
+                            <mat-grid-tile *ngFor="let d of dataPoints" >
+                                <div class="last-data">
+                                    <div class="country">
+                                        {{d.confirmed.country}}
+                                        <span *ngIf="d.confirmed.state != null">
+                                            &nbsp;-&nbsp;{{d.confirmed.state}}
+                                        </span>
+                                    </div>
+                                    <div class="confirmed">
+                                        Confirmed: <b>{{d.confirmed.data.slice(-1).pop()}}</b>
+                                    </div>
+                                    <div class="recovered">
+                                        Recovered: <b>{{d.recovered.data.slice(-1).pop()}}</b>
+                                    </div>
+                                    <div class="deaths">
+                                        Deaths:  <b>{{d.deaths.data.slice(-1).pop()}}</b>
+                                    </div>
+                                </div>
+                            </mat-grid-tile>
+                        </mat-grid-list>
+                    </mat-tab>
                     <mat-tab label="Absolute" >
                         <div [innerHtml]="absoluteHtml"></div>
                     </mat-tab>
