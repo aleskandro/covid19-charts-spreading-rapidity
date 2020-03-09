@@ -39,6 +39,7 @@ export class CsvPollerService {
     recovered: Line[];
     statesCountries: Map<string,string[]>;
     initialized = false;
+    initCounter = 2;
 
     constructor() {
         this.time = new Array<string>();
@@ -70,9 +71,14 @@ export class CsvPollerService {
                     ));
                 });
                 if (!this.initialized) {
-                    this.time = time;
-                    this._setStatesCountries();
-                    this.initialized = true;
+                    if (this.initCounter <= 0) {
+                        this.time = time;
+                        this._setStatesCountries();
+                        this.initialized = true;
+
+                    } else {
+                        this.initCounter--;
+                    }
                 }
             },
             transformHeader: (header) => {

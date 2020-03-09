@@ -144,8 +144,10 @@ export class AppComponent {
     }
 
     initializer = () => {
-        if (!this.svc.initialized)
+        if (!this.svc.initialized) {
             setTimeout(this.initializer, 500);
+            return;
+        }
         console.log("init");
         this.initialized = true;
         this.generate(this.generatorFormGroup);
