@@ -143,7 +143,7 @@ export class CsvPollerService {
             return (new Array(d).fill(0)).concat(a).slice(0,-d);
         } else {
             let d = -displacement;
-            return a.concat((new Array(d).fill(0))).slice(d);
+            return a.concat((new Array(d).fill(a[a.length-1]))).slice(d);
         }
     }
 

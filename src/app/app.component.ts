@@ -85,6 +85,7 @@ export class AppComponent {
         this.disabledSubmit = true;
         this._get(formData, 'first');
         this.setStep(2);
+        this.generatorFormGroup.get('firstDisplacement').setValue(0);
         this.redraw();
     }
 
@@ -189,9 +190,9 @@ export class AppComponent {
 
     ngOnInit() {
         this.generatorFormGroup = this._formBuilder.group({
-            firstCountry: ['Italy', Validators.required],
-            firstState: [''],
-            firstAllStates: [false],
+            firstCountry: [{value: 'Italy', disabled: false}, Validators.required],
+            firstState: [{value: '', disabled: true}],
+            firstAllStates: [{value: false, disabled: true}],
             firstWorld: [false],
             firstDisplacement: [0]
         });
@@ -254,6 +255,7 @@ export class AppComponent {
         this.reset();
         this.disabledSubmit = false;
         this.hideCharts = true;
+
     }
 
     setStateValidator(fg : FormGroup) {
@@ -282,7 +284,7 @@ export class AppComponent {
             fg.get("firstAllStates").disable();
         }
         fg.get("firstState").updateValueAndValidity();
-        fg.get("firstState").updateValueAndValidity();
+        fg.get("firstCountry").updateValueAndValidity();
         fg.get("firstAllStates").updateValueAndValidity();
 
 

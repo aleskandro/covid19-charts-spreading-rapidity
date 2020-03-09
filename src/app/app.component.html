@@ -61,7 +61,7 @@
                         World data
                     </mat-checkbox>
                     <mat-form-field class="full-width-field">
-                        <mat-label>First country</mat-label>
+                        <mat-label>Country</mat-label>
                         <mat-select formControlName="firstCountry" required (selectionChange)="countryChanged($event)">
                             <mat-option *ngFor="let country of svc.getCountries() | sortBy:'asc'" [value]="country">{{country}}</mat-option>
                         </mat-select>
@@ -73,7 +73,7 @@
                             all states for {{generatorFormGroup.get('firstCountry').value}}
                         </mat-checkbox>
                         <mat-form-field class="full-width-field">
-                            <mat-label>First country's state</mat-label>
+                            <mat-label>State</mat-label>
                             <mat-select formControlName="firstState">
                                 <mat-option 
                                     *ngFor="let state of 
@@ -86,7 +86,7 @@
                         </mat-form-field>
                     </div>
                     <div class="time-displacement">
-                        <mat-label>Time displacement (first)</mat-label>
+                        <mat-label>Time displacement</mat-label>
                         <mat-slider class="full-width-field"
                             thumbLabel
                             tickInterval="1" [min]="-svc.time.length + 2" [max]="svc.time.length - 2"
