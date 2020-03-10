@@ -2,6 +2,8 @@
 
 Available at [https://covid-19-spreading.alessandrodistefano.eu](https://covid-19-spreading.alessandrodistefano.eu)
 
+Docker image available at: https://hub.docker.com/repository/docker/aleskandro/covid19-spreading-charts
+
 The lack of comparative and quantitative information by the news media in Italy brought 
 me to this simple project.
 It allows to draw charts about the spreading of Covid19: 
