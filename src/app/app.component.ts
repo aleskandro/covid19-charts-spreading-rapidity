@@ -119,7 +119,6 @@ export class AppComponent {
             this.breakpoint = 4;
         else
             this.breakpoint = this.dataPoints.length;
-        console.log(this.breakpoint);
     }
 
     setStep(s) {
