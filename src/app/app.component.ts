@@ -43,7 +43,7 @@ export class AppComponent {
     absoluteHtml;
     rapidityHtml;
     accelHtml;
-    breakpoint = 1;
+    breakpoint = 2;
     step = 0;
 
     onResize(event) {
@@ -185,6 +185,9 @@ export class AppComponent {
         console.log("init");
         this.initialized = true;
         this.generate(this.generatorFormGroup);
+        this.dataPoints.push(this.svc.getWorldData(0));
+        this.redraw();
+        this.setBreakpoint();
         this.setStep(0);
     }
 
