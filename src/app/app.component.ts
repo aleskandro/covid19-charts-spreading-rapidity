@@ -194,7 +194,7 @@ export class AppComponent {
         this.generatorFormGroup = this._formBuilder.group({
             firstCountry: [{value: 'Italy', disabled: false}, Validators.required],
             firstState: [{value: '', disabled: true}],
-            firstAllStates: [{value: false, disabled: true}],
+            firstAllStates: [{value: true, disabled: false}],
             firstWorld: [false],
             firstDisplacement: [0]
         });

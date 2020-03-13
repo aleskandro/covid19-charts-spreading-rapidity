@@ -16,7 +16,8 @@ and to have spreading velocity which is not currently announced by news media.
 Initially, I started to draw them manually through 
 [Octave](https://www.gnu.org/software/octave/).
 Based on the data-set available at
-[CSSEGISAndData](https://github.com/CSSEGISandData/COVID-19), 
+[CSSEGISAndData](https://github.com/CSSEGISandData/COVID-19), and, for Italy data, the data-set available from 
+                    [Protezione Civile Italiana](https://github.com/pcm-dpc/COVID-19)
 I just developed this simple front-end in a few hours with the hope it 
 can be useful for someone else during this COVID-19 outbreak, in Italy and in the world.
 However, I'm not a front-end developer and I'm sorry for some hacky 

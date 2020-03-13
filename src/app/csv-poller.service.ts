@@ -28,6 +28,7 @@ const deathsUrl = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/mas
 
 const recoveredUrl ="https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Recovered.csv";
 
+const italyPcUrl = "https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-regioni/dpc-covid19-ita-regioni.csv"
 
 @Injectable({
   providedIn: 'root'
@@ -51,6 +52,70 @@ export class CsvPollerService {
         this.parse(deathsUrl, "deaths");
     }
 
+    parseItaly() {
+        let stateMapsConf = new Map<string, Line>();
+        let stateMapsDeaths = new Map<string, Line>();
+        let stateMapsRec = new Map<string, Line>();
+        let raw = new Map<string, any>();
+        let comparator = (a,b) => {
+            if (a.t < b.t)
+                return -1;
+            if (a.t > b.t)
+                return 1;
+            return 0;
+        }
+        let f = (v,i,a) => v.country != "Italy";
+
+        Papa.parse(italyPcUrl, {
+            header: true,
+            skipEmptyLines: true,
+            download: true,
+            dynamicTyping: true,
+            complete: (result) => {
+                result.data.forEach((e) => {
+                    let state = e.denominazione_regione;
+                    if (!raw.has(state)) {
+                        raw.set(state, []);
+                        stateMapsConf.set(state, new Line(
+                            "Italy", state, 0,0, 
+                            new Array(33).fill(0)));
+                        stateMapsRec.set(state, new Line(
+                            "Italy", state, 0,0, 
+                            new Array(33).fill(0)));
+                        stateMapsDeaths.set(state, new Line(
+                            "Italy", state, 0,0, 
+                            new Array(33).fill(0)));
+                    }
+                    raw.get(state).push({
+                        t: e.data,
+                        confirmed: e.totale_casi,
+                        deaths: e.deceduti,
+                        recovered: e.dimessi_guariti
+                    });
+                });
+                this.confirmed = this.confirmed.filter(f);
+                this.deaths = this.deaths.filter(f);
+                this.recovered = this.deaths.filter(f);
+
+                Array.from(raw.keys()).forEach(k => {
+                    raw.get(k).sort(comparator);
+                    raw.get(k).forEach(e => {
+                        stateMapsConf.get(k)
+                            .data.push(e.confirmed);
+                        stateMapsDeaths.get(k)
+                            .data.push(e.deaths);
+                        stateMapsRec.get(k)
+                            .data.push(e.recovered);
+                    });
+                    this.confirmed.push(stateMapsConf.get(k));
+                    this.deaths.push(stateMapsDeaths.get(k));
+                    this.recovered.push(stateMapsRec.get(k));
+                });
+                this._setStatesCountries();
+                this.initialized = true;
+            }
+        });
+    }
     parse(url : string, key : string) {
         Papa.parse(url, {
             header: true,
@@ -73,8 +138,7 @@ export class CsvPollerService {
                 if (!this.initialized) {
                     if (this.initCounter <= 0) {
                         this.time = time;
-                        this._setStatesCountries();
-                        this.initialized = true;
+                        this.parseItaly();
 
                     } else {
                         this.initCounter--;
