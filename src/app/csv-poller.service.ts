@@ -99,7 +99,10 @@ export class CsvPollerService {
 
                 Array.from(raw.keys()).forEach(k => {
                     raw.get(k).sort(comparator);
-                    raw.get(k).forEach(e => {
+                    raw.get(k).forEach((e, i) => {
+                        // TODO avoid getting more updated data from Italy than in the other dataset
+                        if (33 + i == this.time.length)
+                            return;
                         stateMapsConf.get(k)
                             .data.push(e.confirmed);
                         stateMapsDeaths.get(k)
