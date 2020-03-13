@@ -162,9 +162,23 @@ export class AppComponent {
                     showInLegend: true,
                 };
                 let dp = [];
+                let lastDate = undefined;
                 p.time.forEach((x, i) => {
-                    dp.push({ x: this.getDate(x), y: p[t].data[i]});
+                    lastDate = this.getDate(x);
+                    dp.push({ x: lastDate, y: p[t].data[i]});
                 });
+                // Italy can be one day ahead
+                if (p.time.length < p[t].data.length) {
+                    lastDate = new Date(lastDate);
+                    dp.push({
+                        x: new Date(lastDate.
+                                    setDate(
+                                        lastDate.getDate() 
+                                        + 1
+                        )),
+                        y: p[t].data[p[t].data.length - 1]
+                    });
+                }
                 d["dataPoints"] = dp;
                 data.push(d);
             });

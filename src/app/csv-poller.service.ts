@@ -100,9 +100,6 @@ export class CsvPollerService {
                 Array.from(raw.keys()).forEach(k => {
                     raw.get(k).sort(comparator);
                     raw.get(k).forEach((e, i) => {
-                        // TODO avoid getting more updated data from Italy than in the other dataset
-                        if (33 + i == this.time.length)
-                            return;
                         stateMapsConf.get(k)
                             .data.push(e.confirmed);
                         stateMapsDeaths.get(k)
@@ -198,9 +195,16 @@ export class CsvPollerService {
         r.country = country;
         r.state = state;
         r.data = this._displace(r.data, displacement);
-
+        this._filterNaN(c.data);
+        this._filterNaN(d.data);
+        this._filterNaN(r.data);
         let ret = new PackedData(c, r, d, this.time);
         return ret;
+    }
+
+    _filterNaN(a) {
+        if (isNaN(a[a.length - 1]))
+            a.splice(-1);
     }
 
     _displace(a, displacement) {
