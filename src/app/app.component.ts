@@ -132,7 +132,7 @@ export class AppComponent {
             ["confirmed", "deaths", "recovered"].forEach((t) => {
                 let dp = [];
                 let prev = 0;
-                p.time.forEach((x, i) => {
+                p[t].data.forEach((x, i) => {
                     dp.push(p[t].data[i] - prev);
                     prev = p[t].data[i]
                 });
