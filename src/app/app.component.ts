@@ -86,6 +86,8 @@ export class AppComponent {
         this._get(formData, 'first');
         this.setStep(2);
         this.generatorFormGroup.get('firstDisplacement').setValue(0);
+        this.countryChanged(this.generatorFormGroup.get('firstCountry'))
+
         this.redraw();
     }
 
@@ -274,6 +276,10 @@ export class AppComponent {
     countryChanged(e) {
         let fg = this.generatorFormGroup;
         let newCountry = e.value;
+        this.generatorFormGroup.get('firstAllStates').setValue(false);
+        this.generatorFormGroup.get('firstWorld').setValue(true);
+        this.setWorldValidator(this.generatorFormGroup);
+        this.generatorFormGroup.get('firstWorld').setValue(false);
         if (this.svc.getStatesOfCountry(newCountry).length > 0) {
             console.log("Enabling validators");
             fg.get("firstState").setValidators(Validators.required);
