@@ -4,8 +4,8 @@ Available at [https://covid-19-spreading.alessandrodistefano.eu](https://covid-1
 
 Docker image available at: https://hub.docker.com/repository/docker/aleskandro/covid19-spreading-charts
 
-The lack of comparative and quantitative information by the news media in Italy brought 
-me to this simple project.
+I came to this project in order to get a better view of quantitive information about the rapidity of spreading of Covid19 in Italy, and in the World.
+
 It allows to draw charts about the spreading of Covid19: 
 absolute data, rapidity of spread, and acceleration.
 It can also be used to compare data between countries/state.
