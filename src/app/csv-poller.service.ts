@@ -95,7 +95,7 @@ export class CsvPollerService {
                 });
                 this.confirmed = this.confirmed.filter(f);
                 this.deaths = this.deaths.filter(f);
-                this.recovered = this.deaths.filter(f);
+                this.recovered = this.recovered.filter(f);
 
                 Array.from(raw.keys()).forEach(k => {
                     raw.get(k).sort(comparator);
@@ -139,7 +139,6 @@ export class CsvPollerService {
                     if (this.initCounter <= 0) {
                         this.time = time;
                         this.parseItaly();
-
                     } else {
                         this.initCounter--;
                     }
