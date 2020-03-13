@@ -154,8 +154,9 @@ export class AppComponent {
             // single Packed Data (contry + state)
             ["confirmed", "deaths", "recovered"].forEach((t) => {
                 let d = {
-                    name: p[t].country + (p[t].state != null ? p[t].state : "") 
-                            + "(" + t + ")",
+                    name: p[t].country + (p[t].state != null ? 
+                              " | " + p[t].state : "")
+                            + " (" + t + ")",
                     type: "line",
                     yValueFormatString: "#.##",
                     showInLegend: true,
