@@ -200,7 +200,7 @@ export class AppComponent {
         console.log("init");
         this.initialized = true;
         this.generate(this.generatorFormGroup);
-        this.dataPoints.push(this.svc.getStateData("Italy", "Sicilia", 0));
+            this.dataPoints.push(this.svc.getStateData("Italy", "Sicilia", 0));
         this.dataPoints.push(this.svc.getWorldData(0));
         this.redraw();
         this.setBreakpoint();
