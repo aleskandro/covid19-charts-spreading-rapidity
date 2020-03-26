@@ -27,7 +27,8 @@ const confirmedUrl = " https://raw.githubusercontent.com/CSSEGISandData/COVID-19
 
 //const deathsUrl = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Deaths.csv";
 const deathsUrl = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv"
-const recoveredUrl ="https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Recovered.csv";
+ //const recoveredUrl ="https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Recovered.csv";
+const recoveredUrl ="https://raw.githubusercontent.com/CSSEGISandData/COVID-19/0bba23f925700fe934849e6d27a4da295ee58419/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Recovered.csv";
 
 const italyPcUrl = "https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-regioni/dpc-covid19-ita-regioni.csv"
 
