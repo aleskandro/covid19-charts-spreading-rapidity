@@ -18,7 +18,7 @@
 FROM node:10.15.3
 WORKDIR /code
 ENV PATH /usr/src/app/node_modules/.bin:$PATH
-RUN npm install -g yarn @angular/cli
+RUN npm install -g yarn @angular/cli@9.0.3
 COPY package.json ./package.json
 RUN yarn install
 CMD ng serve --host 0.0.0.0 --disable-host-check

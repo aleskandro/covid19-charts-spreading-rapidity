@@ -1,4 +1,4 @@
-/* 
+/*
  *  Covid19-Simple-Graphs
  *  Copyright (C) 2020 aleskandro
  *
@@ -33,20 +33,21 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser
 })
 export class AppComponent {
     initialized = false;
-    generatorFormGroup : FormGroup;
-    dataPoints : Array<PackedData>;
-    dataPointsRapidity : Array<PackedData>;
-    dataPointsAccel : Array<PackedData>;
+    generatorFormGroup: FormGroup;
+    dataPoints: Array<PackedData>;
+    dataPointsRapidity: Array<PackedData>;
+    dataPointsAccel: Array<PackedData>;
     hideCharts = true;
     disabledSubmit = false;
-    selectedTab : number;
+    selectedTab: number;
     absoluteHtml;
     rapidityHtml;
     accelHtml;
     breakpoint = 2;
     step = 0;
+    daysBack = 14;
 
-    onResize(event) {
+  onResize(event) {
         if (event.target.innerWidth <= 800) {
             this.breakpoint = 1;
         } else {
@@ -58,23 +59,24 @@ export class AppComponent {
         this.dataPoints = new Array<PackedData>();
         this.dataPointsRapidity = new Array<PackedData>();
         this.dataPointsAccel = new Array<PackedData>();
-        this.absoluteHtml = "";
-        this.accelHtml = "";
-        this.rapidityHtml = "";
+        this.absoluteHtml = '';
+        this.accelHtml = '';
+        this.rapidityHtml = '';
     }
 
     _get(formData, n) {
-        if (formData.get(n + 'World').value)
+        if (formData.get(n + 'World').value) {
             this.dataPoints.push(this.svc.getWorldData(formData.get(n + 'Displacement').value));
-        else {
-            if (this.svc.getStatesOfCountry(formData.get(n + 'Country').value).length > 0 
+        } else {
+            if (this.svc.getStatesOfCountry(formData.get(n + 'Country').value).length > 0
                   && !formData.get(n + 'AllStates').value) {
-                    this.dataPoints.push(this.svc.getStateData(formData.get(n + 'Country').value, 
-                                                      formData.get(n + 'State').value, 
+                    this.dataPoints.push(this.svc.getStateData(formData.get(n + 'Country').value,
+                                                      formData.get(n + 'State').value,
                                                       formData.get(n + 'Displacement').value));
-            } else
+            } else {
                 this.dataPoints.push(this.svc.getCountryData(formData.get(n + 'Country').value,
                            formData.get(n + 'Displacement').value));
+            }
         }
     }
 
@@ -86,21 +88,21 @@ export class AppComponent {
         this._get(formData, 'first');
         this.setStep(2);
         this.generatorFormGroup.get('firstDisplacement').setValue(0);
-        this.countryChanged(this.generatorFormGroup.get('firstCountry'))
+        this.countryChanged(this.generatorFormGroup.get('firstCountry'));
         this.redraw();
     }
 
     redraw() {
         this.setDiff();
-        setTimeout(() => {this.disabledSubmit = false;}, 500);
-        let absoluteHtml = "";
-        let rapidityHtml = "";
-        let accelHtml = "";
+        setTimeout(() => {this.disabledSubmit = false; }, 500);
+        let absoluteHtml = '';
+        let rapidityHtml = '';
+        let accelHtml = '';
         this.hideCharts = false;
-        this.dataPoints.forEach((p,i) => {
-            absoluteHtml += '<div id="absoluteChart'+i+'" style="height: 370px; width: 100%;"></div>';
-            rapidityHtml += '<div id="rapidityChart'+i+'" style="height: 370px; width: 100%;"></div>';
-            accelHtml += '<div id="accelChart'+i+'" style="height: 370px; width: 100%;"></div>';
+        this.dataPoints.forEach((p, i) => {
+            absoluteHtml += '<div id="absoluteChart' + i + '" style="height: 370px; width: 100%;"></div>';
+            rapidityHtml += '<div id="rapidityChart' + i + '" style="height: 370px; width: 100%;"></div>';
+            accelHtml += '<div id="accelChart' + i + '" style="height: 370px; width: 100%;"></div>';
         });
 
         this.absoluteHtml = this.sanitized.bypassSecurityTrustHtml(absoluteHtml);
@@ -112,14 +114,16 @@ export class AppComponent {
     }
 
     remove(i) {
-        this.dataPoints.splice(i,1);
+        this.dataPoints.splice(i, 1);
         this.redraw();
     }
     setBreakpoint() {
-        if (this.dataPoints.length > 4)
+        if (this.dataPoints.length > 4) {
             this.breakpoint = 4;
-        else
+        }
+        else {
             this.breakpoint = this.dataPoints.length;
+        }
     }
 
     setStep(s) {
@@ -129,12 +133,12 @@ export class AppComponent {
     differentiate(points) {
         points.forEach( (p) => {
             // single Packed Data (contry + state)
-            ["confirmed", "deaths", "recovered"].forEach((t) => {
-                let dp = [];
+            ['confirmed', 'deaths', 'recovered'].forEach((t) => {
+                const dp = [];
                 let prev = 0;
                 p[t].data.forEach((x, i) => {
                     dp.push(p[t].data[i] - prev);
-                    prev = p[t].data[i]
+                    prev = p[t].data[i];
                 });
                 p[t].data = dp;
             });
@@ -149,20 +153,20 @@ export class AppComponent {
     }
 
     mapData(points) {
-        let data = [];
+        const data = [];
         points.forEach( (p) => {
             // single Packed Data (contry + state)
-            ["confirmed", "deaths", "recovered"].forEach((t) => {
-                let d = {
-                    name: p[t].country + (p[t].state != null ? 
-                              " | " + p[t].state : "")
-                            + " (" + t + ")",
-                    type: "line",
-                    yValueFormatString: "#.##",
+            ['confirmed', 'deaths', 'recovered'].forEach((t) => {
+                const d = {
+                    name: p[t].country + (p[t].state != null ?
+                              ' | ' + p[t].state : '')
+                            + ' (' + t + ')',
+                    type: 'line',
+                    yValueFormatString: '#.##',
                     showInLegend: true,
                 };
-                let dp = [];
-                let lastDate = undefined;
+                const dp = [];
+                let lastDate;
                 p.time.forEach((x, i) => {
                     lastDate = this.getDate(x);
                     dp.push({ x: lastDate, y: p[t].data[i]});
@@ -173,34 +177,37 @@ export class AppComponent {
                     dp.push({
                         x: new Date(lastDate.
                                     setDate(
-                                        lastDate.getDate() 
+                                        lastDate.getDate()
                                         + 1
                         )),
                         y: p[t].data[p[t].data.length - 1]
                     });
                 }
-                d["dataPoints"] = dp;
+                const now = new Date();
+                d.dataPoints = dp.filter((datapoints) => {
+                  return datapoints.x > new Date(now - 86400 * this.daysBack * 1000);
+                });
                 data.push(d);
             });
         });
         return data;
     }
 
-    getDate(t : string) {
-        let y = parseInt(t.slice(0,4));
-        let m = parseInt(t.slice(4,6))-1;
-        let d = parseInt(t.slice(6,8));
-        return new Date(y,m,d);
+    getDate(t: string) {
+        const y = parseInt(t.slice(0, 4));
+        const m = parseInt(t.slice(4, 6)) - 1;
+        const d = parseInt(t.slice(6, 8));
+        return new Date(y, m, d);
     }
     initializer = () => {
         if (!this.svc.initialized) {
             setTimeout(this.initializer, 500);
             return;
         }
-        console.log("init");
+        console.log('init');
         this.initialized = true;
         this.generate(this.generatorFormGroup);
-            this.dataPoints.push(this.svc.getStateData("Italy", "Sicilia", 0));
+        this.dataPoints.push(this.svc.getStateData('Italy', 'Sicilia', 0));
         this.dataPoints.push(this.svc.getWorldData(0));
         this.redraw();
         this.setBreakpoint();
@@ -221,51 +228,52 @@ export class AppComponent {
         setTimeout(this.initializer, 500); // TODO hacky, to be solved
         this.selectedTab = 0;
         this.absoluteHtml = '';
-        this.rapidityHtml = "";
+        this.rapidityHtml = '';
         this.accelHtml = '';
         this.reset();
     }
 
     selectedTabChanged(e) {
         this.selectedTab = e;
-        if (e == 0) // Table
+        if (e == 0) { // Table
             return;
-        let charts = [
-            { id: "absoluteChart", title: "Absolute", ytitle: "People", points: this.dataPoints },
-            { id: "rapidityChart", title: "Rapidity", ytitle: "+ People/Day", points: this.dataPointsRapidity },
-            { id: "accelChart", title: "Acceleration", ytitle: "+ People/(Day^2)", points: this.dataPointsAccel}
+        }
+        const charts = [
+            { id: 'absoluteChart', title: 'Absolute', ytitle: 'People', points: this.dataPoints },
+            { id: 'rapidityChart', title: 'Rapidity', ytitle: '+ People/Day', points: this.dataPointsRapidity },
+            { id: 'accelChart', title: 'Acceleration', ytitle: '+ People/(Day^2)', points: this.dataPointsAccel}
         ];
-        this.dataPoints.forEach( (p,i) => {
+        this.dataPoints.forEach( (p, i) => {
             setTimeout(() => {
-                this.render(charts[e-1].points, charts[e-1].id, "", charts[e-1].ytitle, i);
+                this.render(charts[e - 1].points, charts[e - 1].id, '', charts[e - 1].ytitle, i);
             }, 5);
         });
     }
 
     render(points, container, title, ytitle, i) {
-        var chart = new CanvasJS.Chart(container+i, {
+        const chart = new CanvasJS.Chart(container + i, {
             animationEnabled: true,
-            title:{
+            title: {
                 text: title
             },
             axisX: {
-                valueFormatString: "YYYY/MM/DD"
+                valueFormatString: 'YYYY/MM/DD'
             },
             axisY: {
                 title: ytitle,
                 includeZero: true,
-                suffix: ""
+                suffix: ''
             },
-            legend:{
-                cursor: "pointer",
+            legend: {
+                cursor: 'pointer',
                 fontSize: 16,
-                verticalAlign: "top",
-                horizontalAlign: "center"
+                verticalAlign: 'top',
+                horizontalAlign: 'center'
             },
-            toolTip:{
+            toolTip: {
                 shared: true
             },
-            data: this.mapData(points).slice(i*3,3+i*3)
+            data: this.mapData(points).slice(i * 3, 3 + i * 3)
         });
         chart.render();
     }
@@ -277,11 +285,11 @@ export class AppComponent {
 
     }
 
-    setStateValidator(fg : FormGroup) {
+    setStateValidator(fg: FormGroup) {
         if (!fg.get('firstAllStates').value) { // Going to true
             fg.get('firstState').clearValidators();
             fg.get('firstState').disable();
-        } else { 
+        } else {
             fg.get('firstState').setValidators(Validators.required);
             fg.get('firstState').enable();
         }
@@ -289,31 +297,31 @@ export class AppComponent {
     }
 
     countryChanged(e) {
-        let fg = this.generatorFormGroup;
-        let newCountry = e.value;
+        const fg = this.generatorFormGroup;
+        const newCountry = e.value;
         this.generatorFormGroup.get('firstAllStates').setValue(false);
         this.generatorFormGroup.get('firstWorld').setValue(true);
         this.setWorldValidator(this.generatorFormGroup);
         this.generatorFormGroup.get('firstWorld').setValue(false);
         if (this.svc.getStatesOfCountry(newCountry).length > 0) {
-            console.log("Enabling validators");
-            fg.get("firstState").setValidators(Validators.required);
-            fg.get("firstState").enable();
-            fg.get("firstAllStates").enable();
+            console.log('Enabling validators');
+            fg.get('firstState').setValidators(Validators.required);
+            fg.get('firstState').enable();
+            fg.get('firstAllStates').enable();
         } else {
-            console.log("Disabling validators");
-            fg.get("firstState").clearValidators();
-            fg.get("firstState").disable();
-            fg.get("firstAllStates").disable();
+            console.log('Disabling validators');
+            fg.get('firstState').clearValidators();
+            fg.get('firstState').disable();
+            fg.get('firstAllStates').disable();
         }
-        fg.get("firstState").updateValueAndValidity();
-        fg.get("firstCountry").updateValueAndValidity();
-        fg.get("firstAllStates").updateValueAndValidity();
+        fg.get('firstState').updateValueAndValidity();
+        fg.get('firstCountry').updateValueAndValidity();
+        fg.get('firstAllStates').updateValueAndValidity();
 
 
     }
 
-    setWorldValidator(fg : FormGroup) {
+    setWorldValidator(fg: FormGroup) {
         if (!fg.get('firstWorld').value) { // Going to true
             fg.get('firstCountry').clearValidators();
             fg.get('firstCountry').disable();
@@ -335,4 +343,8 @@ export class AppComponent {
 
     }
 
+  setDays() {
+    console.log(this.daysBack)
+    this.redraw();
+  }
 }

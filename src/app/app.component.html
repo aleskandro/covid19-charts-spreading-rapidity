@@ -15,31 +15,31 @@
             <span class="description">
                 <p>
                     I came to this project in order to get a better view of quantitive information about the rapidity of spreading of Covid19 in Italy, and in the World.
-                    It allows drawing charts about the spreading of Covid19: 
+                    It allows drawing charts about the spreading of Covid19:
                     absolute data, rapidity of spread, and acceleration.
                     It can also be used to compare data between countries/state.
-                    These charts could absolutely lack any scientific meaning: 
+                    These charts could absolutely lack any scientific meaning:
                     I'm not an epidemiology expert, but I would have them to compare Italy's outbreak crisis
-                    with other countries 
+                    with other countries
                     and to have spreading velocity which is not currently announced by news media.
-                    Initially, I started to draw them manually through 
-                    <a target="_blank" href="https://www.gnu.org/software/octave/">Octave</a>. 
+                    Initially, I started to draw them manually through
+                    <a target="_blank" href="https://www.gnu.org/software/octave/">Octave</a>.
                     Based on the data-set available at
-                    <a href="https://github.com/CSSEGISandData/COVID-19" target="_blank">CSSEGISAndData</a> and, for Italy data, the data-set available from 
-                    <a href="https://github.com/pcm-dpc/COVID-19">Protezione Civile Italiana</a>, 
-                    I just developed this simple front-end in a few hours with the hope it 
+                    <a href="https://github.com/CSSEGISandData/COVID-19" target="_blank">CSSEGISAndData</a> and, for Italy data, the data-set available from
+                    <a href="https://github.com/pcm-dpc/COVID-19">Protezione Civile Italiana</a>,
+                    I just developed this simple front-end in a few hours with the hope it
                     can be useful for someone else during this COVID-19 outbreak, in Italy and in the world.
-                    However, I'm not a front-end developer and I'm sorry for some hacky 
+                    However, I'm not a front-end developer and I'm sorry for some hacky
                     tricks and bugs: contributions are welcome :).
                 </p>
                 <p>
-                    The project is based on Angular 9, with Material, papaparse and canvasJs 
-                    and it is distributed under the terms of 
-                    <a href="https://github.com/aleskandro/covid19-charts-spreading-rapidity/blob/master/LICENSE" 
+                    The project is based on Angular 9, with Material, papaparse and canvasJs
+                    and it is distributed under the terms of
+                    <a href="https://github.com/aleskandro/covid19-charts-spreading-rapidity/blob/master/LICENSE"
                         target="_blank">GPLv3</a> license.
                 </p>
                 <p>
-                    The code and the limitations of this project are available at 
+                    The code and the limitations of this project are available at
                     <a href="https://github.com/aleskandro/covid19-charts-spreading-rapidity" target="_blank">Github</a>.
                 </p>
             </span>
@@ -56,7 +56,7 @@
             </mat-expansion-panel-header>
             <form [formGroup]="generatorFormGroup" (ngSubmit)="generate(generatorFormGroup)" *ngIf="initialized">
                 <div class="selector first">
-                    <mat-checkbox class="full-width-field pad" formControlName="firstWorld" 
+                    <mat-checkbox class="full-width-field pad" formControlName="firstWorld"
                                                           (click)="setWorldValidator(generatorFormGroup)">
                         World data
                     </mat-checkbox>
@@ -67,18 +67,18 @@
                         </mat-select>
                     </mat-form-field>
                     <div >
-                        <mat-checkbox class="full-width-field pad" formControlName="firstAllStates" 
+                        <mat-checkbox class="full-width-field pad" formControlName="firstAllStates"
                                                                    (click)="setStateValidator(generatorFormGroup)">
-                            Aggregate 
+                            Aggregate
                             all states for {{generatorFormGroup.get('firstCountry').value}}
                         </mat-checkbox>
                         <mat-form-field class="full-width-field">
                             <mat-label>State</mat-label>
                             <mat-select formControlName="firstState">
-                                <mat-option 
-                                    *ngFor="let state of 
+                                <mat-option
+                                    *ngFor="let state of
                                         svc.getStatesOfCountry(generatorFormGroup.get('firstCountry').value)
-                                        | sortBy:'asc'" 
+                                        | sortBy:'asc'"
                                     [value]="state">
                                         {{state}}
                                 </mat-option>
@@ -101,6 +101,27 @@
                 </div>
             </form>
         </mat-expansion-panel>
+
+      <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Days back
+          </mat-panel-title>
+          <mat-panel-description>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+            <div class="time-displacement">
+              <mat-label>Days back: {{daysBack}}</mat-label>
+              <mat-slider class="full-width-field"
+                          thumbLabel
+                          tickInterval="1" [min]="0" [max]="svc.time.length - 2"
+                          [(ngModel)]="daysBack">
+              </mat-slider>
+            </div>
+            <div>
+              <button mat-raised-button color="primary" class="btn btn-responsive" (click)="setDays()" type="submit">Set</button>
+            </div>
+      </mat-expansion-panel>
     </mat-accordion>
 
     <mat-divider></mat-divider>
@@ -120,7 +141,7 @@
                         (selectedIndexChange)="selectedTabChanged($event)">
                     <mat-tab label="Last data" class="table-data">
                         <mat-grid-list [cols]="breakpoint" rowHeight="280px" (window:resize)="onResize($event)">
-                            <mat-grid-tile *ngFor="let d of dataPoints; index as i">
+                            <mat-grid-tile *ngFor="let d of dataPointsRapidity; index as i">
                                 <div class="last-data">
                                     <div class="country">
                                         {{d.confirmed.country}}
@@ -138,9 +159,9 @@
                                         Deaths:  <b>{{d.deaths.data.slice(-1).pop()}}</b>
                                     </div>
                                     <div class="remove">
-                                        <button mat-fab 
-                                            color="white" 
-                                            type="button" 
+                                        <button mat-fab
+                                            color="white"
+                                            type="button"
                                             (click)="remove(i)">
                                             <i class="material-icons">delete_forever</i>
                                         </button>
