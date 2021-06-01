@@ -16,13 +16,14 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { CsvPollerService } from './csv-poller.service';
 import {FormControl} from '@angular/forms';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import * as CanvasJS from './canvasjs.min';
 import {PackedData} from './models/packed-data';
 import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser';
+import {Line} from "./models/line";
 
 
 @Component({
@@ -31,7 +32,7 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser
   styleUrls: ['./app.component.css'],
   providers: [CsvPollerService],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
     initialized = false;
     generatorFormGroup: FormGroup;
     dataPoints: Array<PackedData>;
@@ -120,8 +121,7 @@ export class AppComponent {
     setBreakpoint() {
         if (this.dataPoints.length > 4) {
             this.breakpoint = 4;
-        }
-        else {
+        } else {
             this.breakpoint = this.dataPoints.length;
         }
     }
@@ -164,6 +164,7 @@ export class AppComponent {
                     type: 'line',
                     yValueFormatString: '#.##',
                     showInLegend: true,
+                    dataPoints: null,
                 };
                 const dp = [];
                 let lastDate;
@@ -185,6 +186,7 @@ export class AppComponent {
                 }
                 const now = new Date();
                 d.dataPoints = dp.filter((datapoints) => {
+                  // @ts-ignore
                   return datapoints.x > new Date(now - 86400 * this.daysBack * 1000);
                 });
                 data.push(d);
@@ -194,8 +196,11 @@ export class AppComponent {
     }
 
     getDate(t: string) {
+      // tslint:disable-next-line:radix
         const y = parseInt(t.slice(0, 4));
+      // tslint:disable-next-line:radix
         const m = parseInt(t.slice(4, 6)) - 1;
+      // tslint:disable-next-line:radix
         const d = parseInt(t.slice(6, 8));
         return new Date(y, m, d);
     }
@@ -208,10 +213,35 @@ export class AppComponent {
         this.initialized = true;
         this.generate(this.generatorFormGroup);
         this.dataPoints.push(this.svc.getStateData('Italy', 'Sicilia', 0));
+        this.dataPoints.push(this.generateScordia());
         this.dataPoints.push(this.svc.getWorldData(0));
         this.redraw();
         this.setBreakpoint();
         this.setStep(0);
+    }
+
+    generateScordia(): PackedData {
+      const displace = 484;
+      const ret = new PackedData(
+        new Line('Italy', 'Sicilia | Scordia', 0, 0,
+          new Array(displace).fill(0)),
+        new Line('Italy', 'Sicilia | Scordia', 0, 0,
+          new Array(displace).fill(0)),
+        new Line('Italy', 'Sicilia | Scordia', 0, 0,
+        new Array(displace).fill(0)),
+        [],
+      );
+      ret.time = this.svc.time;
+      ret.confirmed.data.push(
+        1, 4, 7, 9, 10, 11, 20, 100, 120, 150, 200, 260
+      );
+      ret.deaths.data.push(
+        1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2
+      );
+      ret.recovered.data.push(
+        0, 0, 0, 19, 20, 21, 22, 40, 45, 60, 80, 100
+      );
+      return ret;
     }
 
     ngOnInit() {
@@ -224,6 +254,7 @@ export class AppComponent {
         });
     }
 
+  // tslint:disable-next-line:variable-name
     constructor(public svc: CsvPollerService, private _formBuilder: FormBuilder, private sanitized: DomSanitizer) {
         setTimeout(this.initializer, 500); // TODO hacky, to be solved
         this.selectedTab = 0;
@@ -235,7 +266,7 @@ export class AppComponent {
 
     selectedTabChanged(e) {
         this.selectedTab = e;
-        if (e == 0) { // Table
+        if (e === 0) { // Table
             return;
         }
         const charts = [
@@ -344,7 +375,7 @@ export class AppComponent {
     }
 
   setDays() {
-    console.log(this.daysBack)
+    console.log(this.daysBack);
     this.redraw();
   }
 }

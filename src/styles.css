@@ -1,10 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
-body { 
-    margin: 0; 
-    font-family: Roboto, "Helvetica Neue", sans-serif; 
-    background-color: #f3f3f3; 
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    background-color: #f3f3f3;
     height:100vh;
     padding: 0 20px;
 }
@@ -91,3 +91,6 @@ a:hover {
     color: #f44236;
 }
 
+.chart-cont.ng-star-inserted > div {
+  margin-bottom: 75px;
+}

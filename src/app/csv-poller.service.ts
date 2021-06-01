@@ -188,6 +188,7 @@ export class CsvPollerService {
     getWorldData(displacement: number) {
         return this._getData('World', null, this.noopReducer, this.sumReducer, displacement);
     }
+
     _getData(country: String, state: String, filter, reducer, displacement: number) {
         const c = JSON.parse(JSON.stringify(this.confirmed)).filter(filter).reduce(reducer);
         const d = JSON.parse(JSON.stringify(this.deaths)).filter(filter).reduce(reducer);
